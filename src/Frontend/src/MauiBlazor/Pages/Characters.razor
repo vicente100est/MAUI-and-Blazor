@@ -1,0 +1,33 @@
+﻿@page "/characters"
+
+@using MauiBlazor.Services;
+@using MauiBlazor.Models;
+
+@inject IRickAndMortyService service;
+
+<h3>Characters</h3>
+@if (_rickAndMorty == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @foreach (var result in _rickAndMorty.results)
+    {
+        <div>
+            <h1>@result.name</h1>
+            <h2>@result.status</h2>
+            <h4>@result.origin.name</h4>
+            <img src="@result.image">
+        </div>
+    }
+}
+
+@code {
+    private RickAndMorty _rickAndMorty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _rickAndMorty = await service.Get();
+    }
+}
